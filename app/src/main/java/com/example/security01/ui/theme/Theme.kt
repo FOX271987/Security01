@@ -7,6 +7,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -59,11 +60,11 @@ fun Security01Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
 
     dynamicColor: Boolean = false,
-    content: @Composable () -&gt; Unit
+    content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        darkTheme -&gt; DarkColorScheme
-        else -&gt; LightColorScheme
+        darkTheme -> DarkColorScheme
+        else -> LightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {

@@ -18,9 +18,9 @@ import com.example.security01.ui.screens.SplashScreen
  * las rutas que definimos aquí, nada más.
  */
 sealed class Screen(val route: String) {
-    object Splash : Screen(&quot;splash&quot;)
-    object Login : Screen(&quot;login&quot;)
-    object Home : Screen(&quot;home&quot;)
+    object Splash : Screen("splash")
+    object Login : Screen("login")
+    object Home : Screen("home")
 }
 /**
  * Grafo de navegación principal

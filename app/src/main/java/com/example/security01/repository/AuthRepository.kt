@@ -21,7 +21,7 @@ class AuthRepository(context: Context) {
     private val secureStorage = SecureStorage(context)
     private val apiService = RetrofitClient.apiService
     companion object {
-        private const val TAG = &quot;AuthRepository&quot;
+        private const val TAG = "AuthRepository"
 // NUNCA hacer Log.d() con tokens o passwords
     }
 
@@ -34,22 +34,22 @@ class AuthRepository(context: Context) {
      * 3. Si es exitoso, guarda la sesión localmente
      * 4. Retorna el resultado
      */
-    suspend fun login(email: String, password: String): Result&lt;User&gt; {
+    suspend fun login(email: String, password: String): Result<User> {
         return withContext(Dispatchers.IO) {
             try {
 // Validación básica
                 if (email.isBlank() || password.isBlank()) {
                     return@withContext Result.failure(
-                        Exception(&quot;El email y la contraseña son obligatorios&quot;)
+                        Exception("El email y la contraseña son obligatorios")
                     )
                 }
 // Validación de formato de email
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     return@withContext Result.failure(
-                        Exception(&quot;El formato del email no es válido&quot;)
+                        Exception("El formato del email no es válido")
                     )
                 }
-                Log.d(TAG, &quot;Intentando login para usuario: $email&quot;)
+                Log.d(TAG, "Intentando login para usuario: $email")
                 // NUNCA: Log.d(TAG, &quot;Password: $password&quot;) ❌
                 // Creamos la petición
                 val loginRequest = LoginRequest(email, password)
@@ -58,35 +58,35 @@ class AuthRepository(context: Context) {
                 // Verificamos la respuesta
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    if (loginResponse?.success == true &amp;&amp; loginResponse.user != null) {
+                    if (loginResponse?.success == true && loginResponse.user != null) {
                         // Login exitoso - guardamos la sesión
                         val user = loginResponse.user
                         secureStorage.saveUserSession(user)
-                        Log.d(TAG, &quot;Login exitoso para: $email&quot;)
+                        Log.d(TAG, "Login exitoso para: $email")
                         Result.success(user)
                     } else {
 
-                        Log.w(TAG, &quot;Login fallido: ${loginResponse?.message}&quot;)
+                        Log.w(TAG, "Login fallido: ${loginResponse?.message}")
                         Result.failure(
-                            Exception(loginResponse?.message ?: &quot;Error en el login&quot;)
+                            Exception(loginResponse?.message ?: "Error en el login")
                         )
                     }
                 } else {
                     // Error HTTP
                     val errorMessage = when (response.code()) {
-                        401 -&gt; &quot;Credenciales incorrectas&quot;
-                            404 -&gt; &quot;Servicio no disponible&quot;
-                        500 -&gt; &quot;Error en el servidor&quot;
-                        else -&gt; &quot;Error de conexión: ${response.code()}&quot;
+                        401 -> "Credenciales incorrectas"
+                            404 -> "Servicio no disponible"
+                        500 -> "Error en el servidor"
+                        else -> "Error de conexión: ${response.code()}"
                     }
-                    Log.e(TAG, &quot;Error HTTP: ${response.code()}&quot;)
+                    Log.e(TAG, "Error HTTP: ${response.code()}")
                     Result.failure(Exception(errorMessage))
                 }
             } catch (e: Exception) {
                 // Capturamos cualquier error inesperado
-                Log.e(TAG, &quot;Excepción en login&quot;, e)
+                Log.e(TAG, "Excepción en login", e)
                 Result.failure(
-                    Exception(&quot;Error de conexión: ${e.localizedMessage}&quot;)
+                    Exception("Error de conexión: ${e.localizedMessage}")
                 )
             }
         }
@@ -107,7 +107,7 @@ class AuthRepository(context: Context) {
      * Valida el token con el servidor
      * Útil para verificar si la sesión sigue siendo válida
      */
-    suspend fun validateToken(): Result&lt;Boolean&gt; {
+    suspend fun validateToken(): Result<Boolean> {
         return withContext(Dispatchers.IO) {
             try {
 
@@ -115,8 +115,8 @@ class AuthRepository(context: Context) {
                 if (token == null) {
                     return@withContext Result.success(false)
                 }
-                val response = apiService.validateToken(&quot;Bearer $token&quot;)
-                if (response.isSuccessful &amp;&amp; response.body()?.success == true) {
+                val response = apiService.validateToken("Bearer $token")
+                if (response.isSuccessful && response.body()?.success == true) {
 // Token válido, actualizamos timestamp
                     secureStorage.updateSessionTimestamp()
                     Result.success(true)
@@ -126,7 +126,7 @@ class AuthRepository(context: Context) {
                     Result.success(false)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, &quot;Error validando token&quot;, e)
+                Log.e(TAG, "Error validando token", e)
                 Result.failure(e)
             }
         }
@@ -138,27 +138,27 @@ class AuthRepository(context: Context) {
      * 1. Datos locales
      * 2. Sesión en el servidor (si aplica)
      */
-    suspend fun logout(): Result&lt;Boolean&gt; {
+    suspend fun logout(): Result<Boolean> {
         return withContext(Dispatchers.IO) {
             try {
                 val token = secureStorage.getToken()
 // Intentamos cerrar sesión en el servidor
                 if (token != null) {
                     try {
-                        apiService.logout(&quot;Bearer $token&quot;)
-                        Log.d(TAG, &quot;Sesión cerrada en el servidor&quot;)
+                        apiService.logout("Bearer $token")
+                        Log.d(TAG, "Sesión cerrada en el servidor")
                     } catch (e: Exception) {
 // Si falla, continuamos cerrando sesión local
-                        Log.w(TAG, &quot;No se pudo cerrar sesión en servidor&quot;, e)
+                        Log.w(TAG, "No se pudo cerrar sesión en servidor", e)
                     }
                 }
 
 // Limpiamos datos locales SIEMPRE
                 secureStorage.clearSession()
-                Log.d(TAG, &quot;Sesión local limpiada&quot;)
+                Log.d(TAG, "Sesión local limpiada")
                 Result.success(true)
             } catch (e: Exception) {
-                Log.e(TAG, &quot;Error en logout&quot;, e)
+                Log.e(TAG, "Error en logout", e)
 // Aún así limpiamos local
                 secureStorage.clearSession()
                 Result.failure(e)

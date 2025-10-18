@@ -33,8 +33,8 @@ import com.example.security01.viewmodel.AuthViewModel
 @Composable
 fun SplashScreen(
     viewModel: AuthViewModel = viewModel(),
-    onNavigateToLogin: () -&gt; Unit,
-onNavigateToHome: () -&gt; Unit
+    onNavigateToLogin: () -> Unit,
+    onNavigateToHome: () -> Unit
 ) {
 // ============================================
 // ANIMACIÓN DEL LOGO
@@ -80,7 +80,7 @@ onNavigateToHome: () -&gt; Unit
 // Logo con animación
             Image(
                 painter = painterResource(id = R.drawable.ic_security),
-                contentDescription = &quot;Logo&quot;,
+                contentDescription = "Logo",
             modifier = Modifier
                 .size(150.dp)
                 .scale(scale.value)
@@ -88,10 +88,10 @@ onNavigateToHome: () -&gt; Unit
             Spacer(modifier = Modifier.height(32.dp))
 // Nombre de la app
             Text(
-                text = &quot;Security App&quot;,
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onPrimary,
-            textAlign = TextAlign.Center
+                text = "Security App",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onPrimary,
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(48.dp))
 // Indicador de carga

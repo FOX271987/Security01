@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import mx.edu.utng.arg.security01.models.AuthState
-import mx.edu.utng.arg.security01.models.User
-import mx.edu.utng.arg.security01.repository.AuthRepository
+import com.example.security01.models.AuthState
+import com.example.security01.models.User
+import com.example.security01.repository.AuthRepository
 
 /**
  * ViewModel para gestionar la autenticación
@@ -26,12 +26,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = AuthRepository(application)
 
     // LiveData para observar cambios en el estado de autenticación
-    private val _authState = MutableLiveData&lt;AuthState&gt;(AuthState.Idle)
-    val authState: LiveData&lt;AuthState&gt; = _authState
+    private val _authState = MutableLiveData<AuthState>(AuthState.Idle)
+    val authState: LiveData<AuthState> = _authState
 
     // LiveData para el usuario actual
-    private val _currentUser = MutableLiveData&lt;User?&gt;()
-    val currentUser: LiveData&lt;User?&gt; = _currentUser
+    private val _currentUser = MutableLiveData<User>()
+    val currentUser: LiveData<User?> = _currentUser
 
     /**
      * Inicializamos el ViewModel verificando si hay sesión activa
@@ -73,13 +73,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             val result = repository.login(email, password)
 
 // Procesamos el resultado
-            result.onSuccess { user -&gt;
+            result.onSuccess { user ->
                 _currentUser.value = user
                 _authState.value = AuthState.Success(user)
-            }.onFailure { exception -&gt;
+            }.onFailure { exception ->
 
                 _authState.value = AuthState.Error(
-                    exception.message ?: &quot;Error desconocido en el login&quot;
+                    exception.message ?: "Error desconocido en el login"
                 )
             }
         }
@@ -93,7 +93,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val result = repository.validateToken()
 
-            result.onSuccess { isValid -&gt;
+            result.onSuccess { isValid ->;
                 if (!isValid) {
 // Token inválido o expirado
                     logout()
@@ -117,7 +117,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             result.onSuccess {
                 _currentUser.value = null
                 _authState.value = AuthState.Logout
-            }.onFailure { exception -&gt;
+            }.onFailure { exception ->
 // Aunque falle, forzamos el logout local
                 _currentUser.value = null
                 _authState.value = AuthState.Logout

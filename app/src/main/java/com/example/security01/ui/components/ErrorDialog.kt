@@ -13,11 +13,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
  */
 @Composable
 fun ErrorDialog(
-    title: String = &quot;Error&quot;,
-message: String,
-icon: ImageVector = Icons.Filled.Error,
-onDismiss: () -&gt; Unit,
-onConfirm: () -&gt; Unit = onDismiss
+    title: String = "Error",
+    message: String,
+    icon: ImageVector = Icons.Filled.Error,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit = onDismiss
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -43,7 +43,7 @@ onConfirm: () -&gt; Unit = onDismiss
         },
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text(&quot;Aceptar&quot;)
+                Text("Aceptar")
             }
         },
         dismissButton = null

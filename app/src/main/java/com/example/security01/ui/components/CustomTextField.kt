@@ -29,17 +29,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 @Composable
 fun CustomTextField(
     value: String,
-    onValueChange: (String) -&gt; Unit,
-label: String,
-modifier: Modifier = Modifier,
-leadingIcon: ImageVector? = null,
-isPassword: Boolean = false,
-keyboardType: KeyboardType = KeyboardType.Text,
-imeAction: ImeAction = ImeAction.Next,
-onImeAction: () -&gt; Unit = {},
-isError: Boolean = false,
-errorMessage: String? = null,
-enabled: Boolean = true
+    onValueChange: (String) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier,
+    leadingIcon: ImageVector? = null,
+    isPassword: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
+    onImeAction: () -> Unit = {},
+    isError: Boolean = false,
+    errorMessage: String? = null,
+    enabled: Boolean = true
 ) {
 // Estado para mostrar/ocultar contraseña
     var passwordVisible by remember { mutableStateOf(false) }
@@ -61,14 +61,14 @@ enabled: Boolean = true
                         else
                             Icons.Filled.VisibilityOff,
                         contentDescription = if (passwordVisible)
-                        &quot;Ocultar contraseña&quot;
+                        "Ocultar contraseña"
                     else
-                    &quot;Mostrar contraseña&quot;
+                    "Mostrar contraseña"
                     )
                 }
             }
         } else null,
-        visualTransformation = if (isPassword &amp;&amp; !passwordVisible)
+        visualTransformation = if (isPassword && !passwordVisible)
     PasswordVisualTransformation()
     else
     VisualTransformation.None,
@@ -80,7 +80,7 @@ enabled: Boolean = true
         onAny = { onImeAction() }
     ),
     isError = isError,
-    supportingText = if (isError &amp;&amp; errorMessage != null) {
+    supportingText = if (isError && errorMessage != null) {
         { Text(errorMessage, color = MaterialTheme.colorScheme.error) }
     } else null,
     enabled = enabled,

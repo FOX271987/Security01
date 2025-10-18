@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LoadingButton(
     text: String,
-    onClick: () -&gt; Unit,
+    onClick: () -> Unit,
 modifier: Modifier = Modifier,
 isLoading: Boolean = false,
 enabled: Boolean = true
@@ -27,7 +27,7 @@ enabled: Boolean = true
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp),
-        enabled = enabled &amp;&amp; !isLoading,
+        enabled = enabled && !isLoading,
     colors = ButtonDefaults.buttonColors(
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary
@@ -45,7 +45,7 @@ enabled: Boolean = true
                     strokeWidth = 2.dp
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(&quot;Cargando...&quot;)
+                Text("Cargando...")
             }
         } else {
 // Mostramos el texto normal

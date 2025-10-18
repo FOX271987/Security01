@@ -43,20 +43,20 @@ import com.example.security01.viewmodel.AuthViewModel
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel = viewModel(),
-    onLoginSuccess: () -&gt; Unit
+    onLoginSuccess: () -> Unit
 ) {
 // ============================================
 // PASO 1: ESTADOS LOCALES
 // ============================================
 // Estados para los campos de texto
-    var email by remember { mutableStateOf(&quot;&quot;) }
-    var password by remember { mutableStateOf(&quot;&quot;) }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 // Estados para validaciones
-    var emailError by remember { mutableStateOf&lt;String?&gt;(null) }
-    var passwordError by remember { mutableStateOf&lt;String?&gt;(null) }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var passwordError by remember { mutableStateOf<String?>(null) }
 // Estado para mostrar diálogo de error
     var showErrorDialog by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf(&quot;&quot;) }
+    var errorMessage by remember { mutableStateOf("") }
 // ============================================
 // PASO 2: OBSERVACIÓN DEL VIEWMODEL
 // ============================================
@@ -73,17 +73,17 @@ fun LoginScreen(
      */
     LaunchedEffect(authState) {
         when (authState) {
-            is AuthState.Success -&gt; {
+            is AuthState.Success -> {
 // Login exitoso - navegamos a la siguiente pantalla
             onLoginSuccess()
         }
-                is AuthState.Error -&gt; {
+                is AuthState.Error -> {
 // Mostramos el error
             errorMessage = (authState as AuthState.Error).message
             showErrorDialog = true
             viewModel.resetAuthState()
         }
-            else -&gt; {
+            else -> {
 // Idle o Loading - no hacemos nada
         }
         }
@@ -102,28 +102,28 @@ fun LoginScreen(
         var isValid = true
 // Validar email
         when {
-            email.isBlank() -&gt; {
-                emailError = &quot;El email es obligatorio&quot;
+            email.isBlank() -> {
+                emailError = "El email es obligatorio"
                 isValid = false
             }
-            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -&gt; {
-                emailError = &quot;Formato de email inválido&quot;
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                emailError = "Formato de email inválido"
 
                 isValid = false
             }
-            else -&gt; emailError = null
+            else -> emailError = null
         }
 // Validar password
         when {
-            password.isBlank() -&gt; {
-                passwordError = &quot;La contraseña es obligatoria&quot;
+            password.isBlank() -> {
+                passwordError = "La contraseña es obligatoria"
                 isValid = false
             }
-            password.length &lt; 6 -&gt; {
-            passwordError = &quot;Mínimo 6 caracteres&quot;
+            password.length < 6 -> {
+            passwordError = "Mínimo 6 caracteres"
             isValid = false
         }
-            else -&gt; passwordError = null
+            else -> passwordError = null
         }
         return isValid
     }
@@ -157,18 +157,18 @@ fun LoginScreen(
 // ============================================
             Image(
                 painter = painterResource(id = R.drawable.ic_security),
-                contentDescription = &quot;Logo de la app&quot;,
-            modifier = Modifier.size(120.dp)
+                contentDescription = "Logo de la app",
+                modifier = Modifier.size(120.dp)
             )
             Spacer(modifier = Modifier.height(32.dp))
             Text(
-                text = &quot;Bienvenido&quot;,
+                text = "Bienvenido",
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = &quot;Inicia sesión para continuar&quot;,
+                text = "Inicia sesión para continuar",
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
@@ -183,7 +183,7 @@ fun LoginScreen(
                     email = it
                     emailError = null // Limpiamos el error al escribir
                 },
-                label = &quot;Correo electrónico&quot;,
+                label = "Correo electrónico",
             leadingIcon = Icons.Default.Email,
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
@@ -199,7 +199,7 @@ fun LoginScreen(
                     password = it
                     passwordError = null
                 },
-                label = &quot;Contraseña&quot;,
+                label = "Contraseña",
             leadingIcon = Icons.Default.Lock,
             isPassword = true,
             keyboardType = KeyboardType.Password,
@@ -214,10 +214,10 @@ fun LoginScreen(
 // BOTÓN DE LOGIN
 // ============================================
             LoadingButton(
-                text = &quot;Iniciar Sesión&quot;,
-            onClick = { performLogin() },
-            isLoading = authState is AuthState.Loading,
-            enabled = authState !is AuthState.Loading
+                text = "Iniciar Sesión",
+                onClick = { performLogin() },
+                isLoading = authState is AuthState.Loading,
+                enabled = authState !is AuthState.Loading
             )
             Spacer(modifier = Modifier.height(16.dp))
 // ============================================
@@ -228,9 +228,9 @@ fun LoginScreen(
                 enabled = authState !is AuthState.Loading
             ) {
                 Text(
-                    text = &quot;¿Olvidaste tu contraseña?&quot;,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary
+                    text = "¿Olvidaste tu contraseña?",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
             Spacer(modifier = Modifier.height(32.dp))
@@ -239,9 +239,9 @@ fun LoginScreen(
 // VERSIÓN DE LA APP (Info adicional)
 // ============================================
             Text(
-                text = &quot;Versión 1.0.0&quot;,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = "Versión 1.0.0",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 // ============================================
@@ -249,7 +249,7 @@ fun LoginScreen(
 // ============================================
         if (showErrorDialog) {
             ErrorDialog(
-                title = &quot;Error de autenticación&quot;,
+                title = "Error de autenticación",
             message = errorMessage,
             onDismiss = { showErrorDialog = false }
             )

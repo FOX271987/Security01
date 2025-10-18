@@ -35,7 +35,7 @@ import com.example.security01.viewmodel.AuthViewModel
 @Composable
 fun HomeScreen(
     viewModel: AuthViewModel = viewModel(),
-    onLogout: () -&gt; Unit
+    onLogout: () -> Unit
 ) {
 // ============================================
 // ESTADOS Y OBSERVABLES
@@ -48,11 +48,11 @@ fun HomeScreen(
 // ============================================
     LaunchedEffect(authState) {
         when (authState) {
-            is AuthState.Logout -&gt; {
+            is AuthState.Logout -> {
             onLogout()
         }
 
-            else -&gt; {}
+            else -> {}
         }
     }
 // ============================================
@@ -77,8 +77,8 @@ fun HomeScreen(
             TopAppBar(
                 title = {
                     Text(
-                        &quot;Mi Perfil&quot;,
-                    style = MaterialTheme.typography.titleLarge
+                        "Mi Perfil",
+                        style = MaterialTheme.typography.titleLarge
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -90,14 +90,14 @@ fun HomeScreen(
                     IconButton(onClick = { showLogoutDialog = true }) {
                         Icon(
                             imageVector = Icons.Default.ExitToApp,
-                            contentDescription = &quot;Cerrar sesión&quot;,
+                            contentDescription = "Cerrar sesión",
                         tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
             )
         }
-    ) { paddingValues -&gt;
+    ) { paddingValues ->
 
         Column(
             modifier = Modifier
@@ -111,7 +111,7 @@ fun HomeScreen(
 // ============================================
 // TARJETA DE INFORMACIÓN DEL USUARIO
 // ============================================
-            currentUser?.let { user -&gt;
+            currentUser?.let { user ->
                 UserInfoCard(user = user)
                 Spacer(modifier = Modifier.height(32.dp))
 // ============================================
@@ -141,9 +141,9 @@ fun HomeScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = &quot;Cerrar Sesión&quot;,
+                        text = "Cerrar Sesión",
 
-                    style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium
                     )
                 }
             }
@@ -163,14 +163,14 @@ fun HomeScreen(
                 },
                 title = {
                     Text(
-                        text = &quot;Cerrar Sesión&quot;,
-                    style = MaterialTheme.typography.headlineSmall
+                        text = "Cerrar Sesión",
+                        style = MaterialTheme.typography.headlineSmall
                     )
                 },
                 text = {
                     Text(
-                        text = &quot;¿Estás seguro de que deseas cerrar sesión?&quot;,
-                    style = MaterialTheme.typography.bodyMedium
+                        text = "¿Estás seguro de que deseas cerrar sesión?",
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 },
                 confirmButton = {
@@ -180,12 +180,12 @@ fun HomeScreen(
                             viewModel.logout()
                         }
                     ) {
-                        Text(&quot;Cerrar Sesión&quot;)
+                        Text("Cerrar Sesión")
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showLogoutDialog = false }) {
-                        Text(&quot;Cancelar&quot;)
+                        Text("Cancelar")
                     }
                 }
             )
@@ -224,9 +224,9 @@ private fun UserInfoCard(user: User) {
             ) {
                 Icon(
                     imageVector = Icons.Default.Person,
-                    contentDescription = &quot;Avatar&quot;,
-                modifier = Modifier.size(48.dp),
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    contentDescription = "Avatar",
+                    modifier = Modifier.size(48.dp),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -259,9 +259,9 @@ private fun UserInfoCard(user: User) {
             Spacer(modifier = Modifier.height(8.dp))
 // ID del usuario (solo para demostración)
             Text(
-                text = &quot;ID: ${user.id}&quot;,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = "ID: ${user.id}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -298,26 +298,26 @@ private fun SecuritySection(viewModel: AuthViewModel) {
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = &quot;Información de Seguridad&quot;,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                    text = "Información de Seguridad",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
 // Items de seguridad
             SecurityItem(
-                title = &quot;Sesión Encriptada&quot;,
-            description = &quot;Tus datos están protegidos con encriptación AES-256&quot;
+                title = "Sesión Encriptada",
+                description = "Tus datos están protegidos con encriptación AES-256"
             )
             Spacer(modifier = Modifier.height(12.dp))
             SecurityItem(
-                title = &quot;Token de Autenticación&quot;,
-            description = &quot;Token JWT activo y verificado&quot;
+                title = "Token de Autenticación",
+                description = "Token JWT activo y verificado"
             )
             Spacer(modifier = Modifier.height(12.dp))
             SecurityItem(
-                title = &quot;Expiración de Sesión&quot;,
-            description = &quot;Tu sesión expirará después de 24 horas de inactividad&quot;
+                title = "Expiración de Sesión",
+                description = "Tu sesión expirará después de 24 horas de inactividad"
             )
             Spacer(modifier = Modifier.height(16.dp))
 // Botón para validar token
@@ -326,7 +326,7 @@ private fun SecuritySection(viewModel: AuthViewModel) {
                 onClick = { viewModel.validateToken() },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(&quot;Validar Token en Servidor&quot;)
+                Text("Validar Token en Servidor")
             }
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.security01.models.User
 
 /**
  * Clase para almacenar datos sensibles de forma ENCRIPTADA
@@ -20,23 +21,22 @@ import androidx.security.crypto.MasterKey
 class SecureStorage(context: Context) {
 
     companion object {
-        private const val PREFS_NAME = &quot;secure_prefs&quot;
-        private const val KEY_TOKEN = &quot;auth_token&quot;
-        private const val KEY_USER_ID = &quot;user_id&quot;
-        private const val KEY_USER_EMAIL = &quot;user_email&quot;
-        private const val KEY_USER_NAME = &quot;user_name&quot;
-        private const val KEY_IS_LOGGED_IN = &quot;is_logged_in&quot;
-        private const val KEY_SESSION_TIMESTAMP = &quot;session_timestamp&quot;
+        private const val PREFS_NAME = "secure_prefs"
+        private const val KEY_TOKEN = "auth_token"
+        private const val KEY_USER_ID = "user_id"
+        private const val KEY_USER_EMAIL = "user_email"
+        private const val KEY_USER_NAME = "user_name"
+        private const val KEY_IS_LOGGED_IN = "is_logged_in"
+        private const val KEY_SESSION_TIMESTAMP = "session_timestamp"
 
         // Tiempo de expiración de sesión: 24 horas
         private const val SESSION_TIMEOUT = 24 * 60 * 60 * 1000L // milisegundos
     }
 
-    // Creamos la &quot;llave maestra&quot; para encriptar
+    // Creamos la "llave maestra" para encriptar
     private val masterKey = MasterKey.Builder(context)
 
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM) // Algoritmo de encriptación
-    militar
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM) // Algoritmo de encriptación militar
     .build()
 
     // Creamos las preferencias encriptadas
@@ -95,7 +95,7 @@ class SecureStorage(context: Context) {
         val name = sharedPreferences.getString(KEY_USER_NAME, null)
 
 // Si todos los datos existen, creamos el objeto User
-        return if (token != null &amp;&amp; id != null &amp;&amp; email != null &amp;&amp; name != null) {
+        return if (token != null && id != null && email != null && name != null) {
             User(id, email, name, token)
         } else {
             null
@@ -106,7 +106,7 @@ class SecureStorage(context: Context) {
      * Verifica si el usuario tiene sesión activa
      */
     fun isLoggedIn(): Boolean {
-        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false) &amp;&amp;
+        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false) &&
         isSessionValid()
     }
 
@@ -121,7 +121,7 @@ class SecureStorage(context: Context) {
         val currentTime = System.currentTimeMillis()
         val sessionAge = currentTime - sessionTimestamp
 
-        return sessionAge &lt; SESSION_TIMEOUT
+        return sessionAge < SESSION_TIMEOUT
     }
 
     /**
